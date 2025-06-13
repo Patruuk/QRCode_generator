@@ -12,25 +12,28 @@ if os.path.exists('streamlit_config.toml'):
         layout="centered"
     )
 
-st.title("📱 Генератор QR-кодів")
-st.write("Введіть URL для створення QR-коду")
-
-# Ініціалізація стану для відображення QR-коду
+# Ініціалізація станів
+if 'url' not in st.session_state:
+    st.session_state.url = ""
 if 'show_qr' not in st.session_state:
     st.session_state.show_qr = False
 
+st.title("📱 Генератор QR-кодів")
+st.write("Введіть URL для створення QR-коду")
+
 # Поле вводу
-url = st.text_input("URL:", placeholder="https://example.com", key="url_input")
+url = st.text_input("URL:", value=st.session_state.url, placeholder="https://example.com")
 
 # Кнопка генерації
 if st.button("🔄 Згенерувати QR-код"):
     if url:
+        st.session_state.url = url
         st.session_state.show_qr = True
     else:
         st.warning("Будь ласка, введіть URL")
 
 # Відображення QR-коду
-if st.session_state.show_qr and url:
+if st.session_state.show_qr:
     # Створення QR-коду
     qr = qrcode.QRCode(
         version=1,
@@ -38,7 +41,7 @@ if st.session_state.show_qr and url:
         box_size=10,
         border=4,
     )
-    qr.add_data(url)
+    qr.add_data(st.session_state.url)
     qr.make(fit=True)
     
     # Створення зображення
@@ -64,10 +67,10 @@ if st.session_state.show_qr and url:
             file_name="qr_code.png",
             mime="image/png"
         ):
-            # Очищаємо поле вводу і приховуємо QR-код
-            st.session_state.url_input = ""
+            # Очищаємо все
+            st.session_state.url = ""
             st.session_state.show_qr = False
-            st.experimental_rerun()
+            st.rerun()
 
 # Інформація про програму
 st.markdown("---")
