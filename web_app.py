@@ -13,7 +13,7 @@ if os.path.exists('streamlit_config.toml'):
     )
 
 st.title("📱 Генератор QR-кодів")
-st.write("Введіть URL для створення QR-коду")
+st.write("Введіть URL для створення QR-коду і натисніть "Enter")
 
 # Поле вводу
 url = st.text_input("URL:", placeholder="https://example.com")
@@ -38,7 +38,7 @@ if url:
     img_byte_arr = img_byte_arr.getvalue()
     
     # Відображення QR-коду
-    st.image(img_byte_arr, caption="Ваш QR-код", use_column_width=True)
+    st.image(img_byte_arr, caption="Ваш QR-код", use_container_width=True)
     
     # Кнопка для завантаження
     st.download_button(
