@@ -15,8 +15,12 @@ if os.path.exists('streamlit_config.toml'):
 st.title("📱 Генератор QR-кодів")
 st.write("Введіть URL для створення QR-коду")
 
+# Ініціалізація стану для очищення поля
+if 'clear_input' not in st.session_state:
+    st.session_state.clear_input = False
+
 # Поле вводу
-url = st.text_input("URL:", placeholder="https://example.com")
+url = st.text_input("URL:", placeholder="https://example.com", key="url_input")
 
 # Кнопка генерації
 if st.button("🔄 Згенерувати QR-код"):
@@ -48,12 +52,15 @@ if st.button("🔄 Згенерувати QR-код"):
             st.image(img_byte_arr, caption="Ваш QR-код", width=200)
             
             # Кнопка для завантаження
-            st.download_button(
+            if st.download_button(
                 label="📥 Завантажити QR-код",
                 data=img_byte_arr,
                 file_name="qr_code.png",
                 mime="image/png"
-            )
+            ):
+                # Очищаємо поле вводу після завантаження
+                st.session_state.url_input = ""
+                st.experimental_rerun()
     else:
         st.warning("Будь ласка, введіть URL")
 
