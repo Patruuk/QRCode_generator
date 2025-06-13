@@ -2,12 +2,15 @@ import streamlit as st
 import qrcode
 from PIL import Image
 import io
+import os
 
-st.set_page_config(
-    page_title="QR Generator",
-    page_icon="📱",
-    layout="centered"
-)
+# Налаштування конфігурації
+if os.path.exists('streamlit_config.toml'):
+    st.set_page_config(
+        page_title="QR Generator",
+        page_icon="📱",
+        layout="centered"
+    )
 
 st.title("📱 Генератор QR-кодів")
 st.write("Введіть URL для створення QR-коду")
