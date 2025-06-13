@@ -13,7 +13,7 @@ if os.path.exists('streamlit_config.toml'):
     )
 
 st.title("📱 Генератор QR-кодів")
-st.write("Введіть URL для створення QR-коду і натисніть "Enter")
+st.write("Введіть URL для створення QR-коду і натисніть 'Enter'")
 
 # Поле вводу
 url = st.text_input("URL:", placeholder="https://example.com")
